@@ -2,31 +2,48 @@ import argparse
 
 
 def naive(pattern, source):
-    """Uses the Naive Algorithm to search for a given pattern"""
+    """Uses the Naive Algorithm to search for a given pattern.
+
+    Args:
+        pattern (str): substring (word to look for)
+        source (str): string (text)
+
+    Returns:
+        int: index of the word
+    """
+    
     pat_length = len(pattern)
     source_length = len(source)
 
-    for current_letter_pos in range(source_length - pat_length + 1):
-        next_letter_pos = 0
+    for i in range(source_length - pat_length + 1):
+        j = 0
 
-        while next_letter_pos < pat_length:
-            if source[current_letter_pos + next_letter_pos] != pattern[next_letter_pos]:
+        while j < pat_length:
+            if source[i + j] != pattern[j]:
                 break
-            next_letter_pos += 1
+            j += 1
 
-        if next_letter_pos == pat_length:
-            print(current_letter_pos)
+        if j == pat_length:
+            return i
 
 
 def kmp(pattern, source):
-    """Uses the Knuth-Morris-Pratt-Algorithm to search for a given pattern"""
+    """Uses the Knuth-Morris-Pratt-Algorithm to search for a given pattern.
+
+    Args:
+        pattern (str): substring (word to look for)
+        source (str): string (text)
+
+    Returns:
+        int: index of the word
+    """
     pass
 
 
 def main():
     # my_parser = argparse.ArgumentParser(description='Match the index of a target word')
     # my_parser.add_argument('Word', metavar='word', type=str, help='the word to search for')
-    print(naive("AA", "AAAABBGGJJJJ"))  # test
+    print(naive("GJ", "AAAABBGGJJJJ"))  # test
 
 
 if __name__ == '__main__':
