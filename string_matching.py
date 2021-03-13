@@ -3,16 +3,21 @@ import argparse
 
 
 class StringMatcher:
-    def naive(self, pattern, source):
+    def naive(self, pattern, source, case_insensitive):
         """Uses the Naive Algorithm to search for a given pattern.
 
         Args:
             pattern (str): word to look for
             source (str): text to be searched
+            case_insensitive (bool): ignore case sensitivity
 
         Returns:
             int: index of the word sought
         """
+
+        if case_insensitive:
+            pattern = pattern.lower()
+            source = source.lower()
 
         pat_length = len(pattern)
         source_length = len(source)
@@ -64,6 +69,7 @@ class StringMatcher:
         Args:
             pattern (str): word to look for
             source (str): text to be searched
+            case_insensitive (bool): ignore case sensitivity
 
         Returns:
             int: index of the word sought
@@ -98,22 +104,20 @@ class StringMatcher:
         # return self.kmp(pattern, source)
         #         return source_pointer - pattern_pointer
 
-
 def main():
     my_parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
-    my_parser.add_argument('Pattern', metavar='pattern', type=str, help='the word to search for')
+    my_parser.add_argument('Pattern', metavar='pattern', type=str, help='the word/pattern to search for')
     my_parser.add_argument('Source', metavar='source', type=str, help='a text, a .txt-formatted file or a folder')
-    my_parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')  # not working, action can change to function
+    my_parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
+    my_parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = my_parser.parse_args()
-    user_word = args.Search_string
-    user_text = args.Source
     case_insensitve = args.case_insensitive
 
         # string_search
-
+    print(args.naive)
     print(args.case_insensitive)
-    print('word is: ' + user_word)
-    print('text is: ' + user_text)
+    print('word is: ' + args.Pattern)
+    print('text is: ' + args.Source)
     lower_key = '-i'
     # file_obj = open(args.Text, 'r')
     # print(file_obj.read())
@@ -126,9 +130,14 @@ def main():
 
 
     string_matcher = StringMatcher()
+    if args.naive:
+        print(string_matcher.naive(args.Pattern, args.Source, args.case_insensitive))
+    print(string_matcher.kmp(args.Pattern, args.Source, args.case_insensitive))
+
+
     # print(apple.naive("GJ", "AAAABBGGJJJJ"))  # 7
     # print(apple.kmp("onion", "onisOnionskl"))  # 4
-    print(string_matcher.kmp(args.Pattern, args.Source, args.case_insensitive))
+
     # print(string_matcher.kmp(args))
     # print(apple.naive("onion", "onisonionskl"))
 
