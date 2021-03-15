@@ -3,8 +3,20 @@ import argparse
 
 
 class StringMatcher:
-    def naive(self, pattern, source, case_insensitive):
-        """Uses the Naive Algorithm to search for a given pattern.
+    def __init__(self, pattern, source):
+        """
+        Initialize class variables
+
+        Args:
+            pattern:
+            source:
+        """
+        self.pattern = pattern
+        self.source = source
+
+    def naive(self, case_insensitive):
+        """
+        Uses the Naive Algorithm to search for a given pattern.
 
         Args:
             pattern (str): word to look for
@@ -13,28 +25,29 @@ class StringMatcher:
 
         Returns:
             int: index of the word sought
-        """
+    """
 
         if case_insensitive:
-            pattern = pattern.lower()
-            source = source.lower()
+            self.pattern = self.pattern.lower()
+            self.source = self.source.lower()
 
-        pat_length = len(pattern)
-        source_length = len(source)
+        pat_length = len(self.pattern)
+        source_length = len(self.source)
 
         for i in range(source_length - pat_length + 1):
             j = 0
 
             while j < pat_length:
-                if source[i + j] != pattern[j]:
+                if self.source[i + j] != self.pattern[j]:
                     break
                 j += 1
 
             if j == pat_length:
                 return i
 
-    def lps_table(self, pattern, pattern_length):
-        """Facilitate the Knuth-Morris-Pratt-Algorithm. LPS stands for Longest proper Prefix which is Suffix.
+    def lps_table(self, pattern_length):
+        """
+        Facilitate the Knuth-Morris-Pratt-Algorithm. LPS stands for Longest proper Prefix which is Suffix.
 
             Args:
                 pattern (str): word to look for
@@ -42,14 +55,14 @@ class StringMatcher:
 
             Returns:
                 int: index of the word sought
-            """
+        """
 
         longest_pre_suffix = 0
         pointer = 1  # at index 0, lps always 0, so starts at 1
         lps = [0] * pattern_length
 
         while pointer < pattern_length:
-            if pattern[longest_pre_suffix] == pattern[pointer]:
+            if self.pattern[longest_pre_suffix] == self.pattern[pointer]:
                 longest_pre_suffix += 1
                 lps[pointer] = longest_pre_suffix
                 pointer += 1
@@ -63,8 +76,9 @@ class StringMatcher:
 
         return lps
 
-    def kmp(self, pattern, source, case_insensitive):
-        """Uses the Knuth-Morris-Pratt-Algorithm to search for a given pattern.
+    def kmp(self, case_insensitive):
+        """
+        Uses the Knuth-Morris-Pratt-Algorithm to search for a given pattern.
 
         Args:
             pattern (str): word to look for
@@ -72,23 +86,24 @@ class StringMatcher:
             case_insensitive (bool): ignore case sensitivity
 
         Returns:
-            int: index of the word sought
+            list: index of the word sought
         """
 
         if case_insensitive:
-            pattern = pattern.lower()
-            source = source.lower()
+            self.pattern = self.pattern.lower()
+            self.source = self.source.lower()
 
-        pattern_length = len(pattern)
-        source_length = len(source)
-        lps = self.lps_table(pattern, pattern_length)  # Initialize
+        pattern_length = len(self.pattern)
+        source_length = len(self.source)
+        lps = self.lps_table(pattern_length)  # Initialize
 
         source_pointer = 0
         pattern_pointer = 0
+        indexes = []
 
         while source_pointer < source_length:
             # Character matches
-            if pattern[pattern_pointer] == source[source_pointer]:
+            if self.pattern[pattern_pointer] == self.source[source_pointer]:
                 pattern_pointer += 1
                 source_pointer += 1
             # Character does not match
@@ -99,40 +114,44 @@ class StringMatcher:
                     source_pointer += 1
             # Pattern found and matched
             if pattern_pointer == pattern_length:
-                print(source_pointer - pattern_pointer, end=', ')
-                pattern_pointer = lps[pattern_pointer - 1]  #Code unreachable
-        # return self.kmp(pattern, source)
-        #         return source_pointer - pattern_pointer
+                indexes.append(source_pointer - pattern_pointer)
+                print(source_pointer - pattern_pointer)
+                pattern_pointer = lps[pattern_pointer - 1]
+
+        return indexes
+                # return source_pointer - pattern_pointer
 
 def main():
     my_parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
-    my_parser.add_argument('Pattern', metavar='pattern', type=str, help='the word/pattern to search for')
-    my_parser.add_argument('Source', metavar='source', type=str, help='a text, a .txt-formatted file or a folder')
+    my_parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
+    my_parser.add_argument('-s', metavar='string', type=str, help='a text as input')
+    my_parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
+    my_parser.add_argument('-d', metavar='dir', help='a folder that contains .txt-formatted files')
     my_parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
     my_parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = my_parser.parse_args()
-    case_insensitve = args.case_insensitive
 
-        # string_search
     print(args.naive)
     print(args.case_insensitive)
-    print('word is: ' + args.Pattern)
-    print('text is: ' + args.Source)
-    lower_key = '-i'
-    # file_obj = open(args.Text, 'r')
-    # print(file_obj.read())
-    # file = str(file_obj)
-    # print(type(file))
+    print(args.source)
 
-    # for f in os.listdir('/string-matching-algorithmus'):
-    #     if f.endswith('.txt'):
-    #         print(os.path.join('*/string-matching-algorithmus/'), f)
+    string_matcher = StringMatcher(args.pattern, args.source.read())
+    if not args.naive:
+        print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
+    # elif args.source == 'folder':
+    #     print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
+    else:
+        # string_matcher = StringMatcher(args.pattern, args.source)
+        print(f'{args.pattern} found at index {string_matcher.naive(args.case_insensitive)}')
 
+   # my_parser.error if no arguments
 
-    string_matcher = StringMatcher()
-    if args.naive:
-        print(string_matcher.naive(args.Pattern, args.Source, args.case_insensitive))
-    print(string_matcher.kmp(args.Pattern, args.Source, args.case_insensitive))
+    # string_matcher = StringMatcher(args.pattern, args.source.read())
+    # if args.naive:
+    #     print(f'{args.pattern} found at index {string_matcher.naive(args.case_insensitive)}')
+    # else:
+    #     if args.txt:
+    #         print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
 
 
     # print(apple.naive("GJ", "AAAABBGGJJJJ"))  # 7
