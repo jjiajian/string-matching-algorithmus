@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import argparse
+import glob
+import os
 
 
 class StringMatcher:
@@ -56,7 +58,7 @@ class StringMatcher:
                 pattern_length (int): length of the word
 
             Returns:
-                int:
+                list:
         """
 
         longest_pre_suffix = 0
@@ -122,29 +124,54 @@ class StringMatcher:
                 pattern_pointer = lps[pattern_pointer - 1]
 
         return indexes
-                # return source_pointer - pattern_pointer
+
+
+def dir_path(path):
+    if os.path.isdir(path):
+        return path
+    else:
+        raise argparse.ArgumentTypeError(f'{path} is not a valid directory path.')
+
 
 def main():
-    my_parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
-    my_parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
-    my_parser.add_argument('-s', metavar='string', type=str, help='a text as input')
-    my_parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
-    my_parser.add_argument('-d', metavar='dir', help='a folder that contains .txt-formatted files')
-    my_parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
-    my_parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
-    args = my_parser.parse_args()
+    parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
+    parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
+    parser.add_argument('-s', metavar='string', type=str, help='a text as input')
+    parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
+    # parser.add_argument('-d', metavar='dir', type=argparse.FileType('r'), default=[f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.txt')], help='a directory as input')
+    parser.add_argument('-d', metavar='dir', type=dir_path, help='a directory as input')
+    parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
+    parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
+    args = parser.parse_args()
 
     print(args.naive)
     print(args.case_insensitive)
-    # print(args.s)
+    print(type(args.d))
 
-    string_matcher = StringMatcher(args.pattern, args.t.read())
-    if not args.naive:
-        print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
-    # elif args.source == 'folder':
-    #     print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
-    else:
-        print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
+    if args.d:
+        os.chdir(args.d)
+        for filename in glob.glob('*.txt'):
+            with open(os.path.join(os.getcwd(), filename), 'r') as f:
+                all_text = f.read()
+                string_matcher = StringMatcher(args.pattern, all_text)
+                print(f'File: {filename}')
+                print(f'Pattern: {args.pattern}')
+            if not args.naive:
+                print(f'Index(es): {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
+            else:
+                print(f'Index(es): {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
+
+
+
+
+    string_matcher = StringMatcher(args.pattern, args.d)
+    # string_matcher = StringMatcher(args.pattern, args.t.read())  # for txt
+    # if not args.naive:
+    #     print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
+    # # elif args.source == 'folder':
+    # #     print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
+    # else:
+    #     print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
 
    # my_parser.error if no arguments
 
