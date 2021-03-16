@@ -146,12 +146,12 @@ def dir_path(path):
 def main():
     # Example for searching in a string
     example_naive = StringMatcher('curious', 'Curiouser and curiouser!')
-    print('Sample output in case-sensitive mode with athe naive approach.')
+    print('Sample output in case-sensitive mode with the naive approach.')
     print(f'Index: {", ".join(map(str, example_naive.naive(case_insensitive=False)))} \n')
 
     example_kmp = StringMatcher('dog', 'Doggie is a dog.')
     print('Sample output in case-insensitive mode using Knuth-Morris-Pratt-Algorithm.')
-    print(f'Index: {", ".join(map(str, example_kmp.kmp(case_insensitive=True)))} \n')
+    print(f'Index: {", ".join(map(str, example_kmp.kmp(case_insensitive=True)))}')
     print('-' * 80)
 
     parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
@@ -163,7 +163,7 @@ def main():
     parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = parser.parse_args()
 
-    if args.pattern == '':
+    if args.pattern == '' or args.pattern == ' ':
         print('Search Pattern is empty! Please try again!')
     else:
         # Search pattern in a string
@@ -204,8 +204,6 @@ def main():
         # when user only entered a pattern
         else:
             parser.error('Please provide a string, a txt-file or a directory!')
-
-
 
 
 if __name__ == '__main__':
