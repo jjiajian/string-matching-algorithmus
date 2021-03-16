@@ -5,14 +5,16 @@ import os
 
 
 class StringMatcher:
-    def __init__(self, pattern, source):
-        """
-        Initialize class variables
+    """
+    Finds the index of a target word in a text.
 
-        Args:
-            pattern:
-            source:
-        """
+    Args:
+            pattern (str): word to look for
+            source (str): text to be searched
+    """
+    def __init__(self, pattern, source):
+        """Initialize class variables"""
+
         self.pattern = pattern
         self.source = source
 
@@ -21,13 +23,11 @@ class StringMatcher:
         Uses the Naive Algorithm to search for a given pattern.
 
         Args:
-            pattern (str): word to look for
-            source (str): text to be searched
             case_insensitive (bool): ignore case sensitivity
 
         Returns:
             list: index(es) of the word sought
-    """
+        """
 
         if case_insensitive:
             self.pattern = self.pattern.lower()
@@ -47,7 +47,7 @@ class StringMatcher:
 
             if j == pat_length:
                 indexes_n.append(i)
-                # return i
+
         return indexes_n
 
     def lps_table(self, pattern_length):
@@ -58,7 +58,7 @@ class StringMatcher:
                 pattern_length (int): length of the word
 
             Returns:
-                list:
+                list: length of LPS
         """
 
         longest_pre_suffix = 0
@@ -77,8 +77,7 @@ class StringMatcher:
 
             else:
                 longest_pre_suffix = lps[longest_pre_suffix - 1]
-        print('############')
-        print(lps)
+
         return lps
 
     def kmp(self, case_insensitive):
@@ -86,8 +85,6 @@ class StringMatcher:
         Uses the Knuth-Morris-Pratt-Algorithm to search for a given pattern.
 
         Args:
-            pattern (str): word to look for
-            source (str): text to be searched
             case_insensitive (bool): ignore case sensitivity
 
         Returns:
@@ -126,6 +123,13 @@ class StringMatcher:
 
 
 def dir_path(path):
+    """
+    Checks validity of directory path.
+
+    Args:
+        path (str): directory path from user input
+    """
+
     if os.path.isdir(path):
         return path
     else:
@@ -142,6 +146,7 @@ def main():
     parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = parser.parse_args()
 
+    # Search pattern in a string
     if args.s:
         string_matcher_s = StringMatcher(args.pattern, args.s)
         print(f'String: {args.s}')
@@ -151,6 +156,7 @@ def main():
         else:
             print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
 
+    # Search word in a .txt-file
     elif args.t:
         string_matcher_t = StringMatcher(args.pattern, args.t.read())
         print(f'File: {args.t.name}')
@@ -160,6 +166,7 @@ def main():
         else:
             print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))}')
 
+    # Search word in .txt-file(s) in a directory
     elif args.d:
         os.chdir(args.d)
         for filename in glob.glob('*.txt'):
@@ -173,10 +180,10 @@ def main():
             else:
                 print(f'Index(es): {", ".join(map(str, string_matcher_d.naive(args.case_insensitive)))} \n')
 
+    # when user only entered a pattern
     else:
         parser.error('Please provide a string, a txt-file or a directory!')
 
 
 if __name__ == '__main__':
     main()
-
