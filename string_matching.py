@@ -12,6 +12,7 @@ class StringMatcher:
             pattern (str): word to look for
             source (str): text to be searched
     """
+
     def __init__(self, pattern, source):
         """Initialize class variables"""
 
@@ -143,6 +144,12 @@ def dir_path(path):
 
 
 def main():
+    # Example for searching in a string
+    example = StringMatcher('curious', 'Curiouser and curiouser!')
+    print('Sample output in case-sensitive mode using Knuth-Morris-Pratt-Algorithm')
+    print(f'Index: {", ".join(map(str, example.kmp(case_insensitive=False)))}')
+    print('-' * 80)
+
     parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
     parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
     parser.add_argument('-s', metavar='string', type=str, help='a text as input')
@@ -179,6 +186,7 @@ def main():
             with open(os.path.join(os.getcwd(), filename), 'r') as f:
                 all_text = f.read()
                 string_matcher_d = StringMatcher(args.pattern, all_text)
+                print(f'Directory: {args.d}')
                 print(f'File: {filename}')
                 print(f'Pattern: {args.pattern}')
             if not args.naive:
