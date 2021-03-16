@@ -120,7 +120,6 @@ class StringMatcher:
             # Pattern found and matched
             if pattern_pointer == pattern_length:
                 indexes.append(source_pointer - pattern_pointer)
-                print(source_pointer - pattern_pointer)
                 pattern_pointer = lps[pattern_pointer - 1]
 
         return indexes
@@ -138,33 +137,49 @@ def main():
     parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
     parser.add_argument('-s', metavar='string', type=str, help='a text as input')
     parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
-    # parser.add_argument('-d', metavar='dir', type=argparse.FileType('r'), default=[f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.txt')], help='a directory as input')
     parser.add_argument('-d', metavar='dir', type=dir_path, help='a directory as input')
     parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
     parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = parser.parse_args()
 
-    print(args.naive)
-    print(args.case_insensitive)
-    print(type(args.d))
+    if args.s:
+        string_matcher_s = StringMatcher(args.pattern, args.s)
+        print(f'String: {args.s}')
+        print(f'Pattern: {args.pattern}')
+        if not args.naive:
+            print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))} \n')
+        else:
+            print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))} \n')
 
-    if args.d:
+    elif args.t:
+        string_matcher_t = StringMatcher(args.pattern, args.t.read())
+        print(f'File: {args.t.name}')
+        print(f'Pattern: {args.pattern}')
+        if not args.naive:
+            print(f'Index(es): {", ".join(map(str, string_matcher_t.kmp(args.case_insensitive)))} \n')
+        else:
+            print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))} \n')
+
+    elif args.d:
         os.chdir(args.d)
         for filename in glob.glob('*.txt'):
             with open(os.path.join(os.getcwd(), filename), 'r') as f:
                 all_text = f.read()
-                string_matcher = StringMatcher(args.pattern, all_text)
+                string_matcher_d = StringMatcher(args.pattern, all_text)
                 print(f'File: {filename}')
                 print(f'Pattern: {args.pattern}')
             if not args.naive:
-                print(f'Index(es): {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
+                print(f'Index(es): {", ".join(map(str, string_matcher_d.kmp(args.case_insensitive)))} \n')
             else:
-                print(f'Index(es): {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
+                print(f'Index(es): {", ".join(map(str, string_matcher_d.naive(args.case_insensitive)))} \n')
+
+    else:
+        parser.error('Use at least one input method!')
 
 
 
 
-    string_matcher = StringMatcher(args.pattern, args.d)
+    string_matcher_t = StringMatcher(args.pattern, args.d)
     # string_matcher = StringMatcher(args.pattern, args.t.read())  # for txt
     # if not args.naive:
     #     print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
