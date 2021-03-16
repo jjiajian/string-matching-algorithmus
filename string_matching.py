@@ -145,9 +145,13 @@ def dir_path(path):
 
 def main():
     # Example for searching in a string
-    example = StringMatcher('curious', 'Curiouser and curiouser!')
-    print('Sample output in case-sensitive mode using Knuth-Morris-Pratt-Algorithm')
-    print(f'Index: {", ".join(map(str, example.kmp(case_insensitive=False)))}')
+    example_naive = StringMatcher('curious', 'Curiouser and curiouser!')
+    print('Sample output in case-sensitive mode with athe naive approach.')
+    print(f'Index: {", ".join(map(str, example_naive.naive(case_insensitive=False)))} \n')
+
+    example_kmp = StringMatcher('dog', 'Doggie is a dog.')
+    print('Sample output in case-insensitive mode using Knuth-Morris-Pratt-Algorithm.')
+    print(f'Index: {", ".join(map(str, example_kmp.kmp(case_insensitive=True)))} \n')
     print('-' * 80)
 
     parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
@@ -159,44 +163,49 @@ def main():
     parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = parser.parse_args()
 
-    # Search pattern in a string
-    if args.s:
-        string_matcher_s = StringMatcher(args.pattern, args.s)
-        print(f'String: {args.s}')
-        print(f'Pattern: {args.pattern}')
-        if not args.naive:
-            print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))}')
-        else:
-            print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
-
-    # Search word in a .txt-file
-    elif args.t:
-        string_matcher_t = StringMatcher(args.pattern, args.t.read())
-        print(f'File: {args.t.name}')
-        print(f'Pattern: {args.pattern}')
-        if not args.naive:
-            print(f'Index(es): {", ".join(map(str, string_matcher_t.kmp(args.case_insensitive)))}')
-        else:
-            print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))}')
-
-    # Search word in .txt-file(s) in a directory
-    elif args.d:
-        os.chdir(args.d)
-        for filename in glob.glob('*.txt'):
-            with open(os.path.join(os.getcwd(), filename), 'r') as f:
-                all_text = f.read()
-                string_matcher_d = StringMatcher(args.pattern, all_text)
-                print(f'Directory: {args.d}')
-                print(f'File: {filename}')
-                print(f'Pattern: {args.pattern}')
-            if not args.naive:
-                print(f'Index(es): {", ".join(map(str, string_matcher_d.kmp(args.case_insensitive)))} \n')
-            else:
-                print(f'Index(es): {", ".join(map(str, string_matcher_d.naive(args.case_insensitive)))} \n')
-
-    # when user only entered a pattern
+    if args.pattern == '':
+        print('Search Pattern is empty! Please try again!')
     else:
-        parser.error('Please provide a string, a txt-file or a directory!')
+        # Search pattern in a string
+        if args.s:
+            string_matcher_s = StringMatcher(args.pattern, args.s)
+            print(f'String: {args.s}')
+            print(f'Pattern: {args.pattern}')
+            if not args.naive:
+                print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))}')
+            else:
+                print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
+
+        # Search word in a .txt-file
+        elif args.t:
+            string_matcher_t = StringMatcher(args.pattern, args.t.read())
+            print(f'File: {args.t.name}')
+            print(f'Pattern: {args.pattern}')
+            if not args.naive:
+                print(f'Index(es): {", ".join(map(str, string_matcher_t.kmp(args.case_insensitive)))}')
+            else:
+                print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))}')
+
+        # Search word in .txt-file(s) in a directory
+        elif args.d:
+            os.chdir(args.d)
+            for filename in glob.glob('*.txt'):
+                with open(os.path.join(os.getcwd(), filename), 'r') as f:
+                    all_text = f.read()
+                    string_matcher_d = StringMatcher(args.pattern, all_text)
+                    print(f'Directory: {args.d}')
+                    print(f'File: {filename}')
+                    print(f'Pattern: {args.pattern}')
+                if not args.naive:
+                    print(f'Index(es): {", ".join(map(str, string_matcher_d.kmp(args.case_insensitive)))} \n')
+                else:
+                    print(f'Index(es): {", ".join(map(str, string_matcher_d.naive(args.case_insensitive)))} \n')
+
+        # when user only entered a pattern
+        else:
+            parser.error('Please provide a string, a txt-file or a directory!')
+
+
 
 
 if __name__ == '__main__':
