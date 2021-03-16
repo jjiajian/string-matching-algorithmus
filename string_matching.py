@@ -128,6 +128,12 @@ def dir_path(path):
 
     Args:
         path (str): directory path from user input
+
+    Returns:
+        str: directory path
+
+    Raises:
+        ArgumentTypeError: If path is invalid
     """
 
     if os.path.isdir(path):
