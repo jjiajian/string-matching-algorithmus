@@ -147,18 +147,18 @@ def main():
         print(f'String: {args.s}')
         print(f'Pattern: {args.pattern}')
         if not args.naive:
-            print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))} \n')
+            print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))}')
         else:
-            print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))} \n')
+            print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
 
     elif args.t:
         string_matcher_t = StringMatcher(args.pattern, args.t.read())
         print(f'File: {args.t.name}')
         print(f'Pattern: {args.pattern}')
         if not args.naive:
-            print(f'Index(es): {", ".join(map(str, string_matcher_t.kmp(args.case_insensitive)))} \n')
+            print(f'Index(es): {", ".join(map(str, string_matcher_t.kmp(args.case_insensitive)))}')
         else:
-            print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))} \n')
+            print(f'Index(es): {", ".join(map(str, string_matcher_t.naive(args.case_insensitive)))}')
 
     elif args.d:
         os.chdir(args.d)
@@ -174,35 +174,7 @@ def main():
                 print(f'Index(es): {", ".join(map(str, string_matcher_d.naive(args.case_insensitive)))} \n')
 
     else:
-        parser.error('Use at least one input method!')
-
-
-
-
-    string_matcher_t = StringMatcher(args.pattern, args.d)
-    # string_matcher = StringMatcher(args.pattern, args.t.read())  # for txt
-    # if not args.naive:
-    #     print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
-    # # elif args.source == 'folder':
-    # #     print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
-    # else:
-    #     print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
-
-   # my_parser.error if no arguments
-
-    # string_matcher = StringMatcher(args.pattern, args.source.read())
-    # if args.naive:
-    #     print(f'{args.pattern} found at index {string_matcher.naive(args.case_insensitive)}')
-    # else:
-    #     if args.txt:
-    #         print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
-
-
-    # print(apple.naive("GJ", "AAAABBGGJJJJ"))  # 7
-    # print(apple.kmp("onion", "onisOnionskl"))  # 4
-
-    # print(string_matcher.kmp(args))
-    # print(apple.naive("onion", "onisonionskl"))
+        parser.error('Please provide a string, a txt-file or a directory!')
 
 
 if __name__ == '__main__':
