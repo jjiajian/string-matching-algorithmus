@@ -24,7 +24,7 @@ class StringMatcher:
             case_insensitive (bool): ignore case sensitivity
 
         Returns:
-            int: index of the word sought
+            list: index(es) of the word sought
     """
 
         if case_insensitive:
@@ -33,6 +33,7 @@ class StringMatcher:
 
         pat_length = len(self.pattern)
         source_length = len(self.source)
+        indexes_n = []
 
         for i in range(source_length - pat_length + 1):
             j = 0
@@ -43,18 +44,19 @@ class StringMatcher:
                 j += 1
 
             if j == pat_length:
-                return i
+                indexes_n.append(i)
+                # return i
+        return indexes_n
 
     def lps_table(self, pattern_length):
         """
         Facilitate the Knuth-Morris-Pratt-Algorithm. LPS stands for Longest proper Prefix which is Suffix.
 
             Args:
-                pattern (str): word to look for
                 pattern_length (int): length of the word
 
             Returns:
-                int: index of the word sought
+                int:
         """
 
         longest_pre_suffix = 0
@@ -73,7 +75,8 @@ class StringMatcher:
 
             else:
                 longest_pre_suffix = lps[longest_pre_suffix - 1]
-
+        print('############')
+        print(lps)
         return lps
 
     def kmp(self, case_insensitive):
@@ -86,7 +89,7 @@ class StringMatcher:
             case_insensitive (bool): ignore case sensitivity
 
         Returns:
-            list: index of the word sought
+            list: index(es) of the word sought
         """
 
         if case_insensitive:
@@ -133,16 +136,15 @@ def main():
 
     print(args.naive)
     print(args.case_insensitive)
-    print(args.source)
+    # print(args.s)
 
-    string_matcher = StringMatcher(args.pattern, args.source.read())
+    string_matcher = StringMatcher(args.pattern, args.t.read())
     if not args.naive:
         print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.kmp(args.case_insensitive)))}')
     # elif args.source == 'folder':
     #     print(f'{args.pattern} found at index {string_matcher.kmp(args.case_insensitive)}')
     else:
-        # string_matcher = StringMatcher(args.pattern, args.source)
-        print(f'{args.pattern} found at index {string_matcher.naive(args.case_insensitive)}')
+        print(f'{args.pattern} found at index {", ".join(map(str, string_matcher.naive(args.case_insensitive)))}')
 
    # my_parser.error if no arguments
 
