@@ -1,5 +1,5 @@
 # String-Matching Algorithm
-A simple program that searches for a substring from a string with that help of the Knuth-Morris-Pratt Algorithm or the naive approach.
+A simple program that searches for a substring from a string with the help of the Knuth-Morris-Pratt Algorithm or the naive approach.
 
 ## Table of contents
 * [General Info](#general-info)
