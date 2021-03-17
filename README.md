@@ -6,7 +6,7 @@ A simple program that searches for a substring from a string with the help of th
 * [Technologies](#technologies)
 * [Usage](#usage)
 
-### General Info
+## General Info
 This program is designed to be called from the command line. It will search for the substring/word and gives out its respective index or indices in a string/text, both provided by the user via the command line. The user has three options to input his/her text:
 * enter directly via command line
 * a .txt-formatted file
@@ -14,15 +14,15 @@ This program is designed to be called from the command line. It will search for 
 
 By default the program uses the Knuth-Morris-Pratt Algorithm, which is more efficient in terms of time complexity than the naive approach, to search for the substring/word. The user however has the option to select the naive approach if preferred. Case sensitivity is possible to be switched off by the user, else the programm is case sensitive by nature. After the user entered a substring/word and a string/text correctly, the program will return the index or if the word appeares more than once the indices of the substring/word. If the substring/word is not found, the program will return a empty Index, e.g. ```Index(es):   ```. The sample .txt-files which are used in the usage examples below are available in the repository. 
 
-### Technologies
+## Technologies
 Project is created with Python 3.8
 
-### Usage
+## Usage
 The program can be called directly from the command line
 
 ```python string_matching.py```
 
-#### Examples of use
+### Examples of use
 Below are a few examples of searching the word ```dog```.
 * String as text, case insensitive, Knuth-Morris-Pratt 
 
