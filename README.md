@@ -1,6 +1,12 @@
 # String-Matching Algorithm
 A simple program that searches for a substring from a string with the help of the Knuth-Morris-Pratt Algorithm or the naive approach.
 
+## Uni-Project submission
+* Course name: Programmierung I
+* Course code: PRO-1A
+* Project theme: String-Matching
+* Student name: Jia Jian Lee
+
 ## Table of contents
 * [General Info](#general-info)
 * [Technologies](#technologies)
