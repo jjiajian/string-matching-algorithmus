@@ -36,6 +36,7 @@ Below are a few examples of searching the word ```dog```.
 ```python string_matching.py "dog" -s "As a Dog, I go to school by bus and meet my dog friend." -i```
 
 ```
+# returns
 String: As a Dog, I go to school by bus and meet my dog friend.
 Pattern: dog
 Index(es): 5, 44
@@ -45,6 +46,7 @@ Index(es): 5, 44
 ```python string_matching.py "dog" -t "dog.txt"```
 
 ```
+# returns
 File: dog.txt
 Pattern: dog
 Index(es): 44, 82, 140, 171
@@ -55,6 +57,7 @@ Index(es): 44, 82, 140, 171
 ```python string_matching.py "dog" -d "./sample_directory" -i -n```
 
 ```
+# returns
 Directory: ./sample_directory
 File: berlin.txt
 Pattern: dog
@@ -75,8 +78,14 @@ Index(es):
 A list of frequently asked questions
 1. **What happens if I entered an empty pattern (e.g. "", " ")?**
  
-_The program will return_ ```Search Pattern is empty! Please try again!```
+```python string_matching.py " " -s "As a Dog, I go to school by bus and meet my dog friend." -i``` 
+``` 
+$ Search Pattern is empty! Please try again!
+```
 
 2. __What happens if I entered an empty string (e.g. -s " ")?__ 
 
-_The program will return_ ```Empty String found!```
+```python string_matching.py "dog" -s " "``` 
+``` 
+$ Empty String found!
+```
