@@ -11,6 +11,7 @@ A simple program that searches for a substring from a string with the help of th
 * [General Info](#general-info)
 * [Technologies](#technologies)
 * [Usage](#usage)
+* [FAQs](#FAQs)
 
 ## General Info
 This program is designed to be called from the command line. It will search for the substring/word and gives out its respective index or indices in a string/text, both provided by the user via the command line. The user has three options to input his/her text:
@@ -69,3 +70,13 @@ File: peloton.txt
 Pattern: dog
 Index(es):  
 ```
+
+## FAQs
+A list of frequently asked questions
+1. **What happens if I entered an empty pattern (e.g. "", " ")?**
+ 
+_The program will return_ ```Search Pattern is empty! Please try again!```
+
+2. __What happens if I entered an empty string (e.g. -s " ")?__ 
+
+_The program will return_ ```Empty String found!```
