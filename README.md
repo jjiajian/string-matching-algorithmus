@@ -22,7 +22,11 @@ This program is designed to be called from the command line. It searches for the
 By default the program uses the Knuth-Morris-Pratt algorithm, which is more efficient in terms of time complexity than the naive algorithm, to search for the substring/word. The user however has the option to select the naive approach if preferred. Case sensitivity is possible to be switched off by the user, else the programm is case sensitive by nature. After the user entered a substring/word and a string/text correctly, the program will return the index or if the word appeares more than once the indices of the substring/word. If the substring/word is not found, the program will return a empty Index, e.g. ```Index(es):   ```. The sample .txt-files which are used in the usage examples below are available in the repository. 
 
 ## Technologies
-Project is built with Python 3.8
+Project is built with Python 3.8 using following:
+
+Modules: ```argparse```, ```glob```
+
+Package: ```os```
 
 ## Usage
 The program can be called directly from the command line
@@ -52,7 +56,7 @@ String: As a Dog, I go to school by bus and meet my dog friend.
 Pattern: dog
 Index(es): 5, 44
 ```
-* .txt-file, case sensitive, Knuth-Morris-Pratt
+* a .txt-file, case sensitive, Knuth-Morris-Pratt
 
 ```python string_matching.py "dog" -t "dog.txt"```
 
