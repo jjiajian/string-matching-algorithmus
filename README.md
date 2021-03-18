@@ -14,7 +14,7 @@ A simple program that searches for a substring from a string with the help of th
 * [FAQs](#FAQs)
 
 ## General Info
-This program is designed to be called from the command line. It will search for the substring/word and gives out its respective index or indices in a string/text, both provided by the user via the command line. The user has three options to input his/her text:
+This program is designed to be called from the command line. It will search for the substring/word and gives out its respective position(s) in a string/text, both provided by the user via the command line. The user has three options to input his/her text:
 * enter directly via command line
 * a .txt-formatted file
 * a directory, in which the program will search for all .txt-formatted files (Best for seraching in multiple .txt-files)
