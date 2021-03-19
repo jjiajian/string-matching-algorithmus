@@ -45,7 +45,7 @@ class StringMatcher:
                 if self.source[i + j] != self.pattern[j]:
                     break
                 j += 1
-            # Pattern found and matched
+
             if j == pat_length:
                 indexes_n.append(i)
 
@@ -71,11 +71,11 @@ class StringMatcher:
                 longest_pre_suffix += 1
                 lps[pointer] = longest_pre_suffix
                 pointer += 1
-            # Mismatch first character
+
             elif longest_pre_suffix == 0:
                 lps[pointer] = 0
                 pointer += 1
-            # Mismatch after at least one matching character
+
             else:
                 longest_pre_suffix = lps[longest_pre_suffix - 1]
 
@@ -144,13 +144,23 @@ def dir_path(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Finds the index of a target word in a text')
-    parser.add_argument('pattern', metavar='pattern', type=str, help='the substring/pattern/word to search for')
-    parser.add_argument('-s', metavar='string', type=str, help='a string/text as input')
+    # Example for searching in a string
+    example_naive = StringMatcher('curious', 'Curiouser and curiouser!')
+    print('Sample output in case-sensitive mode with the naive approach.')
+    print(f'Index: {", ".join(map(str, example_naive.naive(case_insensitive=False)))} \n')
+
+    example_kmp = StringMatcher('dog', 'Doggie is a dog.')
+    print('Sample output in case-insensitive mode using Knuth-Morris-Pratt-Algorithm.')
+    print(f'Index: {", ".join(map(str, example_kmp.kmp(case_insensitive=True)))}')
+    print('-' * 80)
+
+    parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
+    parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
+    parser.add_argument('-s', metavar='string', type=str, help='a text as input')
     parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
     parser.add_argument('-d', metavar='dir', type=dir_path, help='a directory as input')
     parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
-    parser.add_argument('-n', '--naive', action='store_true', help='uses the naive algorithm')
+    parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
     args = parser.parse_args()
 
     if args.pattern == '' or args.pattern == ' ':
@@ -158,16 +168,13 @@ def main():
     else:
         # Search pattern in a string
         if args.s:
-            if args.s == ' ':
-                print("Empty String found!")
+            string_matcher_s = StringMatcher(args.pattern, args.s)
+            print(f'String: {args.s}')
+            print(f'Pattern: {args.pattern}')
+            if not args.naive:
+                print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))}')
             else:
-                string_matcher_s = StringMatcher(args.pattern, args.s)
-                print(f'String: {args.s}')
-                print(f'Pattern: {args.pattern}')
-                if not args.naive:
-                    print(f'Index(es): {", ".join(map(str, string_matcher_s.kmp(args.case_insensitive)))}')
-                else:
-                    print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
+                print(f'Index(es): {", ".join(map(str, string_matcher_s.naive(args.case_insensitive)))}')
 
         # Search word in a .txt-file
         elif args.t:
