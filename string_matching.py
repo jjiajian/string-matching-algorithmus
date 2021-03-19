@@ -144,13 +144,13 @@ def dir_path(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='String Matcher', description='Finds the index of a target word in a text')
-    parser.add_argument('pattern', metavar='pattern', type=str, help='the word/pattern to search for')
-    parser.add_argument('-s', metavar='string', type=str, help='a text as input')
-    parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file as input')
-    parser.add_argument('-d', metavar='dir', type=dir_path, help='a directory as input')
+    parser = argparse.ArgumentParser(description='Finds the index of a target word in a text')
+    parser.add_argument('pattern', metavar='pattern', type=str, help='the substring/pattern/word to search for')
+    parser.add_argument('-s', metavar='string', type=str, help='a string/text')
+    parser.add_argument('-t', metavar='txt', type=argparse.FileType('r'), help='a .txt-formatted file')
+    parser.add_argument('-d', metavar='dir', type=dir_path, help='a directory')
     parser.add_argument('-i', '--case-insensitive', action='store_true', help='ignore lowercase & uppercase letters')
-    parser.add_argument('-n', '--naive', action='store_true', help='uses the naive Approach')
+    parser.add_argument('-n', '--naive', action='store_true', help='uses the naive algorithm')
     args = parser.parse_args()
 
     if args.pattern == '' or args.pattern == ' ':
