@@ -106,3 +106,9 @@ Search Pattern is empty! Please try again!
 # returns
 Empty String found!
 ```
+3. __Error when searching for a substring in a string with "!"?__
+
+Solutions: 
+* Add a space after "!" e.g. ```python string_matching.py "curious" -s "curious and Curiouser! "```
+* Use single quotes e.g. ```python string_matching.py "curious" -s 'curious and Curiouser!'```
+
