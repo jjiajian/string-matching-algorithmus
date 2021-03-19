@@ -1,5 +1,5 @@
 # String-Matching Algorithm
-A simple program that searches for a substring from a string with the help of the Knuth-Morris-Pratt algorithm or the naive algorithm.
+A simple program that searches for a substring from a string with the Knuth-Morris-Pratt algorithm or the naive algorithm.
 
 ## Uni-Project submission
 * Course name: Programmierung I
@@ -19,7 +19,7 @@ This program is designed to be called from the command line. It searches for the
 * a .txt-formatted file
 * a directory, in which the program will search for all .txt-formatted files (Best for seraching in multiple .txt-files)
 
-By default the program uses the Knuth-Morris-Pratt algorithm, which is more efficient in terms of time complexity than the naive algorithm, to search for the substring/word. The user however has the option to select the naive approach if preferred. Case sensitivity is possible to be switched off by the user, else the programm is case sensitive by nature. After the user entered a substring/word and a string/text correctly, the program will return the index or if the word appeares more than once the indices of the substring/word. If the substring/word is not found, the program will return a empty Index, e.g. ```Index(es):   ```. The sample .txt-files which are used in the usage examples below are available in the repository. 
+By default the program uses the Knuth-Morris-Pratt algorithm, which is more efficient in terms of time complexity than the naive algorithm, to search for the substring/word. The user however has the option to select the naive approach if preferred. Case sensitivity is possible to be switched off by the user, else the programm is case sensitive by default. After the user entered a substring/word and a string/text correctly, the program will return the index or if the word appeares more than once the indices of the substring/word. If the substring/word is not found, the program will return a empty Index, e.g. ```Index(es):   ```. The sample .txt-files which are used in the usage examples below are available in the repository. 
 
 ## Technologies
 Project is built with Python 3.8 using following:
